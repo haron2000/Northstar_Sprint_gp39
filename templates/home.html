@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>How can we help?</h1>
+    <div class="option-list">
+        <a class="option-button" href="{% url 'orders:order_status' %}">Track My Order</a>
+        <a class="option-button" href="{% url 'inventory:stock_search' %}">Check Product Availability</a>
+    </div>
+{% endblock %}
