@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Track My Order</h1>
+
+    <form method="get" class="search-form">
+        <label for="order_number">Order Number</label>
+        <input type="text" id="order_number" name="order_number"
+               value="{{ submitted_order_number }}" placeholder="e.g. NS10001">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% endif %}
+
+    {% if order %}
+        <div class="result-card">
+            <h2>Order #{{ order.order_number }}</h2>
+            <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+            <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+            {% if order.expected_delivery %}
+                <p><strong>Expected Delivery:</strong> {{ order.expected_delivery }}</p>
+            {% endif %}
+            {% if order.courier %}
+                <p><strong>Courier:</strong> {{ order.courier }}</p>
+            {% endif %}
+            {% if order.tracking_number %}
+                <p><strong>Tracking Number:</strong> {{ order.tracking_number }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <p><a href="{% url 'home' %}">&larr; Back to home</a></p>
+{% endblock %}
