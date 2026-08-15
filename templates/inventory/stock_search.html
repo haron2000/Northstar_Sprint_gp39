@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Check Product Availability</h1>
+
+    <form method="get" class="search-form">
+        <label for="product_name">Product Name</label>
+        <input type="text" id="product_name" name="product_name"
+               value="{{ submitted_product_name }}" placeholder="e.g. Nike Air Max">
+
+        <label for="size">Size (optional)</label>
+        <input type="text" id="size" name="size" value="{{ submitted_size }}" placeholder="e.g. 42">
+
+        <button type="submit">Check Availability</button>
+    </form>
+
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% endif %}
+
+    {% if product %}
+        <div class="result-card">
+            <h2>{{ product.name }}</h2>
+            <p><strong>SKU:</strong> {{ product.sku }}</p>
+            {% for variant in variants %}
+                <hr>
+                {% if variant.size %}<p><strong>Size:</strong> {{ variant.size }}</p>{% endif %}
+                {% if variant.stock_quantity > 0 %}
+                    <p class="status-in-stock"><strong>Status:</strong> In Stock</p>
+                    <p><strong>Available Quantity:</strong> {{ variant.stock_quantity }}</p>
+                {% else %}
+                    <p class="status-out-of-stock"><strong>Status:</strong> Out of Stock</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <p><a href="{% url 'home' %}">&larr; Back to home</a></p>
+{% endblock %}
